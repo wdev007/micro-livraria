@@ -13,10 +13,24 @@ app.get('/products', (req, res, next) => {
     inventory.SearchAllProducts(null, (err, data) => {
         if (err) {
             console.error(err);
-            res.status(500).send({ error: 'something failed :(' });
-        } else {
-            res.json(data.products);
+            return res.status(500).send({ error: 'something failed :(' });
         }
+
+        return res.json(data.products);
+    });
+});
+
+/**
+ * Retorna um produto da loja via InventoryService
+ */
+app.get('/products/:id', (req, res, next) => {
+    inventory.SearchProductById({ id: req.params.id }, (err, product) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send({ error: 'something failed :(' });
+        }
+
+        return res.json(product);
     });
 });
 
